@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from http import client
 from django.urls import reverse
-from mywatchlist.models import MyWatchlist
+from mywatchlist.models import DataWatchlist
 # Create your tests here.
 
 class TestViews(TestCase):
