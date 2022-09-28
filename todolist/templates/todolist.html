@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+    {% block content %}
+
+    <div style="text-align: center;">
+
+        <h4>Nama:</h4>
+        <p>{{user}}</p>
+
+        <h2>To Do List</h2>
+    
+        <button style="padding: 10px;"><a href="{% url 'todolist:add_task' %}">Tambah Task</a></button>
+        <br><br>
+
+        <table style="margin-left: auto; margin-right: auto; border: 1px solid black; ">
+            <tr>
+                <th style="padding: 10px; border: 1px solid black;  background-color: #9dc6fa;">TANGGAL</th>
+                <th style="padding: 10px; border: 1px solid black;  background-color: #9dc6fa;">JUDUL</th>
+                <th style="padding: 10px; border: 1px solid black;  background-color: #9dc6fa;">DESKRIPSI</th>
+                <th style="padding: 10px; border: 1px solid black;  background-color: #9dc6fa;">STATUS</th>
+                <th style="padding: 10px; border: 1px solid black;  background-color: #9dc6fa;">UBAH</th>
+                <th style="padding: 10px; border: 1px solid black;  background-color: #9dc6fa;">HAPUS</th>
+                
+            </tr>
+            {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
+            {% for task in data_task %}
+                <tr>
+                    <td style="padding: 0px 10px; border: 1px solid black; ">{{task.date}}</td>
+                    <td style="padding: 0px 10px; border: 1px solid black; ">{{task.title}}</td>
+                    <td style="padding: 0px 10px; border: 1px solid black; ">{{task.description}}</td>
+
+                    {% if task.is_finished %}
+                        <td style="padding: 0px 10px; border: 1px solid black; ">Selesai</td>
+                    {% else %}
+                        <td style="padding: 0px 10px; border: 1px solid black; ">Belum Selesai</td>
+                    {% endif %}
+                    <td style="border: 1px solid black; "><button style="margin: 10px;">
+                        <a href="{% url 'todolist:update_task' pk=task.id %}">Ubah Status</a></button></td>
+                    <td style="border: 1px solid black; "><button style="margin: 10px;">
+                        <a href="{% url 'todolist:delete_task' pk=task.id %}">Hapus Task</a></button></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <br>
+
+        <button style="padding: 10px;"><a href="{% url 'todolist:logout' %}">Logout</a></button>
+
+    </div>
+{% endblock content %}
