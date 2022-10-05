@@ -6,29 +6,73 @@
 
 {% block content %}  
 
-<div class = "login">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<style>
+    body {
+        margin-top: 50px;
+    }
+    .register {
+        margin: 0 auto;
+        max-width: 400px;
+    }
+    h5 {
+        font-weight: normal;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+</style>
+
+<body>
+    <div class = "register">
     
-    <h1>Formulir Registrasi</h1>  
+        <h1 style="margin-bottom: 25px;">Formulir Registrasi</h1>  
+    
+            <form method="POST">  
+                {% csrf_token %}  
+                <!-- <table>  
+                    {{ form.as_table }}  
+                    <tr>  
+                        <td></td>
+                        <td><input type="submit" name="submit" value="Daftar"/></td>  
+                    </tr>  
+                </table>   -->
+                <div class="form-group">
+                    <h5>Username</h5>
+                    <input type="text" name="username" placeholder="Username" class="form-control">
+                    <small class='text-secondary'>{{ form.username.help_text }}</small>
+                </div>
+        
+                <div class="form-group">
+                    <h5>Password</h5>
+                    <input type="password" name="password1" placeholder="Password" class="form-control">
+                    <small class='text-secondary'>{{ form.password1.help_text }}</small>
+                </div>
+        
+                <div class="form-group">
+                    <h5>Password Confirmation</h5>
+                    <input type="password" name="password2" placeholder="Password" class="form-control">
+                    <small class='text-secondary'>{{ form.password2.help_text }}</small>
+                </div>
 
-        <form method="POST" >  
-            {% csrf_token %}  
-            <table>  
-                {{ form.as_table }}  
-                <tr>  
-                    <td></td>
-                    <td><input type="submit" name="submit" value="Daftar"/></td>  
-                </tr>  
-            </table>  
-        </form>
+                <div class="form-group">
+                    <input class="btn btn-success col-12" type="submit" value="Daftar">
+                </div>
 
-    {% if messages %}  
-        <ul>   
-            {% for message in messages %}  
-                <li>{{ message }}</li>  
-                {% endfor %}  
-        </ul>   
-    {% endif %}
+            </form>
+    
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %} 
+                <div class="alert alert-warning">
+                        {{ error }}
+                </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
 
-</div>  
+    </div>  
+</body>
+
 
 {% endblock content %}
