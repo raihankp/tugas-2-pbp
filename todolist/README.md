@@ -37,8 +37,8 @@ Setelah kita melakukan submisi pada form, data-data yang telah diisi akan dipang
 
 
 ## Jelaskan tag HTML5 yang kamu ketahui.
--`<html>` Tag untuk membuat dokumen HTML
--`<title>` Tag untuk menentukan judul dari suatu halaman
+- `<html>` Tag untuk membuat dokumen HTML
+- `<title>` Tag untuk menentukan judul dari suatu halaman
 -`<body>` Tag untuk membuat tubuh dari suatu halaman
 -`<h1> - <h6>` Tag untuk membuat header
 -`<p>` Tag untuk membuat suatu paragraf
