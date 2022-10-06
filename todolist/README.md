@@ -64,5 +64,6 @@ Setelah kita melakukan submisi pada form, data-data yang telah diisi akan dipang
 ## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.
 1. Masukkan <link >bootstrap kepada base.html
 2. Menerapkan style dan bootstrap kepada halaman login, register, create-task, dan todolist
-3. Membuat keempat halaman responsif dengan memasukkan media query pada base.html
-4. Melakukan push dan deploy kepada heroku
+3. Menerapkan efek ketika cards di halama todolist di hover
+4. Membuat keempat halaman responsif dengan memasukkan media query pada base.html
+5. Melakukan push dan deploy kepada heroku
