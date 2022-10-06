@@ -31,9 +31,9 @@ Setelah kita melakukan submisi pada form, data-data yang telah diisi akan dipang
 ## Apa perbedaan dari Inline, Internal, dan External CSS? Apa saja kelebihan dan kekurangan dari masing-masing style?
 | | Inline | Internal | External |
 |-|--|--|--|
-|Perbedaan|Style berada di satu elemen saja|CSS berada di file yang sama|CSS berada di file sendiri|
-|Kelebihan|Membantu ketika ingin menguji style pada satu elemen, mempercepat perbaikan, dan load halaman lebih cepat|Berlaku pada satu halaman saja|Tidak perlu membuat banyak file CSS karena berada dalam satu file yang sama dengan HTML|CSS bisa diberlakukan pada beberapa file HTML, ukuran HTML juga lebih kecil|
-|Kekurangan|Tidak efisien karena hanya digunakan pada satu elemen saja|Tidak efisien ketika ingin menggunakan style yang sama di beberapa file|Memperbanyak file dan satu halaman HTML akan berantakan ketika CSS gagal dipanggil|
+|Perbedaan|Style berada di satu elemen saja|CSS berada di file yang sama|CSS berada di file sendiri
+|Kelebihan|Membantu ketika ingin menguji style pada satu elemen, mempercepat perbaikan, dan load halaman lebih cepat|Berlaku pada satu halaman saja|Tidak perlu membuat banyak file CSS karena berada dalam satu file yang sama dengan HTML|CSS bisa diberlakukan pada beberapa file HTML, ukuran HTML juga lebih kecil
+|Kekurangan|Tidak efisien karena hanya digunakan pada satu elemen saja|Tidak efisien ketika ingin menggunakan style yang sama di beberapa file|Memperbanyak file dan satu halaman HTML akan berantakan ketika CSS gagal dipanggil
 
 
 ## Jelaskan tag HTML5 yang kamu ketahui.
