@@ -37,23 +37,23 @@ Setelah kita melakukan submisi pada form, data-data yang telah diisi akan dipang
 
 
 ## Jelaskan tag HTML5 yang kamu ketahui.
-- `<html>` Tag untuk membuat dokumen HTML
-- `<title>` Tag untuk menentukan judul dari suatu halaman
--`<body>` Tag untuk membuat tubuh dari suatu halaman
--`<h1> - <h6>` Tag untuk membuat header
--`<p>` Tag untuk membuat suatu paragraf
--`<a>` Tag untuk membuat hyperlink
--`<br>` Tag untuk memberikan satu baris kosong
--`<b>` Tag untuk membuat suatu kata tercetak tebal
--`<table>` Tag untuk membuat table
--`<th>` Tag untuk membuat caption pada table
--`<tr>` Tag untuk membuat baris pada table
--`<td>` Tag untuk membuat sel pada table
--`<form>` Tag untuk membuat form untuk input user
--`<input>` Tag untuk membuat suatu input
--`<button>` Tag untuk membuat suatu tombol yang bisa diklik
--`<label>` Tag untuk membuat label
--`<img>` Tag untuk memasukkan gambar
+1. `<html>` Tag untuk membuat dokumen HTML
+2. `<title>` Tag untuk menentukan judul dari suatu halaman
+3. `<body>` Tag untuk membuat tubuh dari suatu halaman
+4. `<h1> - <h6>` Tag untuk membuat header
+5. `<p>` Tag untuk membuat suatu paragraf
+6. `<a>` Tag untuk membuat hyperlink
+7. `<br>` Tag untuk memberikan satu baris kosong
+8. `<b>` Tag untuk membuat suatu kata tercetak tebal
+9. `<table>` Tag untuk membuat table
+10. `<th>` Tag untuk membuat caption pada table
+11. `<tr>` Tag untuk membuat baris pada table
+12. `<td>` Tag untuk membuat sel pada table
+13. `<form>` Tag untuk membuat form untuk input user
+14. `<input>` Tag untuk membuat suatu input
+15. `<button>` Tag untuk membuat suatu tombol yang bisa diklik
+16. `<label>` Tag untuk membuat label
+17. `<img>` Tag untuk memasukkan gambar
 
 ## Jelaskan tipe-tipe CSS selector yang kamu ketahui.
 1. Selektor Tag, akan memilih elemen yang sesuai dengan tag
