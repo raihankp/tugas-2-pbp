@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from todolist.models import Task
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
@@ -7,10 +7,13 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 import datetime
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
+from django.core import serializers
 from todolist.models import Task
 from todolist.forms import TaskForm
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 @login_required(login_url='/todolist/login/')
@@ -24,7 +27,7 @@ def show_todolist(request):
 
 
 @login_required(login_url='/todolist/login/')
-def add_task(request):
+def create_task(request):
     form = TaskForm()
     if request.method == "POST":
         form = TaskForm(request.POST)
@@ -35,7 +38,7 @@ def add_task(request):
             return redirect('todolist:show_todolist')
         
     context = {'form':form}
-    return render(request, 'add_task.html', context)
+    return render(request, 'create_task.html', context)
 
 @login_required(login_url='/todolist/login/')
 def update_task(request, pk):
@@ -92,4 +95,28 @@ def logout_user(request):
     return response
 
 
-    
+@login_required(login_url='/todolist/login/')
+def show_json(request):
+    user = request.user
+    data = Task.objects.filter(user=user)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+
+@csrf_exempt
+def add_task(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        todo = Task.objects.create(title=title, description=description,date=datetime.date.today(), is_finished=False, user=request.user)
+        result = {
+            'pk':todo.pk,
+            'fields':{
+                'title':todo.title,
+                'description':todo.description,
+                'is_finished':todo.is_finished,
+                'date':todo.date,
+            }
+        }
+        return JsonResponse(result)    
+    return HttpResponseBadRequest()
+

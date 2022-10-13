@@ -1,29 +1,6 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
+{% extends 'base.html' %} {% block meta %}
+<title>Todolist</title>
 <style>
-    /* For desktop: */
-    .col-1 {width: 8.33%;}
-    .col-2 {width: 16.66%;}
-    .col-3 {width: 25%;}
-    .col-4 {width: 33.33%;}
-    .col-5 {width: 41.66%;}
-    .col-6 {width: 50%;}
-    .col-7 {width: 58.33%;}
-    .col-8 {width: 66.66%;}
-    .col-9 {width: 75%;}
-    .col-10 {width: 83.33%;}
-    .col-11 {width: 91.66%;}
-    .col-12 {width: 100%;}
-
-    @media only screen and (max-width: 768px) {
-    /* For mobile phones: */
-    [class*="col-"] {
-        width: 100%;
-    }
-    }
-    
     .navbar {
         margin-bottom: 50px;
     }
@@ -52,87 +29,210 @@
 
     }
 </style>
+{% endblock meta %} {% block content %}
 
-<body>
-    <div class="todolist">
-        <div style="text-align: center;">
-
-            <!-- NAVBAR -->
-            <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #198754;">
-                <div class="container-fluid py-2 px-4">
-                    <a class="navbar-brand px-2" href="#" style="color: #ffffff;">Welcome, {{user}}!</a>
-                    <button class="btn btn-danger mx-3" style="background-color: #f3f3f3; color: #198754; border: #ffffff;" 
-                        type="submit" onclick="location.href=`{% url 'todolist:logout' %}`">Logout</button>
-                    </div>
-            </nav>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      const card = (data) => `
         
-            <h2>To Do List</h2>
-        
-            <button class="btn btn-success col-6" style="margin-bottom: 25px;"><a href="{% url 'todolist:add_task' %}">Tambah Task</a></button>
 
-            <!-- <div class="mt-3 p-3">
-                <table class="table">   
-                    <tr>
-                        <th scope="col">TANGGAL</th>
-                        <th scope="col">JUDUL</th>
-                        <th scope="col">DESKRIPSI</th>
-                        <th scope="col">STATUS</th>
-                        <th scope="col">UBAH</th>
-                        <th scope="col">HAPUS</th>
-                        
-                    </tr>
-                    
-                    {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
-                        {% for task in data_task %}
-                            <tr>
-                                <td scope="row">{{task.date}}</td>
-                                <td scope="row" style="max-width: 100px;">{{task.title}}</td>
-                                <td scope="row" style="max-width: 500px;">{{task.description}}</td>
-                
-                                {% if task.is_finished %}
-                                    <td scope="row">Selesai</td>
-                                {% else %}
-                                    <td scope="row">Belum Selesai</td>
-                                {% endif %}
-                                <td scope="row">
-                                    <button class="btn btn-success"><a href="{% url 'todolist:update_task' pk=task.id %}">Ubah Status</a></button>
-                                <td scope="row">
-                                    <button class="btn btn-success"><a href="{% url 'todolist:delete_task' pk=task.id %}">Hapus Task</a></button>
-                            </tr>
-                        {% endfor %}
-                </table>
-            </div> -->
+        <div id='${data.pk}-card' class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <small class="text-muted">${data.fields.date}</small>
+                            <h3 class="card-text mb-3">${data.fields.title}</h3>
+                            <p class="card-text">${data.fields.description}</p>
 
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                {% for task in data_task %}
-                    <div class="col">
-                        <div class="card shadow-sm h-100">
-                            <div class="card-body">
-                                <small class="text-muted">{{task.date}}</small>
-                                <h3 class="card-text mb-3">{{task.title}}</h3>
-                                <p class="card-text">{{task.description}}</p>
+                            ${ data.fields.is_finished ? `<h6 class="text-success">Selesai</h6>` : `<h6 class="text-danger">Belum Selesai</h6>`}
 
-                                {% if task.is_finished %}
-                                    <h6 class="text-success">Selesai</h6>
-                                {% else %}
-                                    <h6 class="text-danger">Belum Selesai</h6>
-                                {% endif %}
+                            <div class="btn-group">
+                                
 
-                                <div class="btn-group">
-                                    <a href="{% url 'todolist:update_task' pk=task.id %}" class="btn btn-success btn-outline-light">Ubah Status</a>
-                                    <a href="{% url 'todolist:delete_task' pk=task.id %}" class="btn btn-success btn-outline-light">Hapus Task</a>
-                            
+                                <div onclick="location.href='/todolist/update_task/${data.pk}/'" class="cursor-pointer">
+                                    <button><a class="btn btn-success btn-outline-light">Ubah Status</a></button>
+                                </div>
+
+                                <div onclick="location.href='/todolist/delete_task/${data.pk}/'" class="cursor-pointer">
+                                    <button><a class="btn btn-success btn-outline-light">Hapus Task</a></button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                {% endfor %}
+                </div>
             </div>
+        `
+      const addCard = (data) => {
+        return $('#todo').append(card(data))
+      }
+
+      const removeCard = (task) => {
+        $(`#${task.pk}`).click(function () {
+          $.ajax({
+            url: `/todolist/delete_task/${task.pk}`,
+            type: 'DELETE',
+            success: function (response) {
+              $(`#${task.pk}-card`).remove()
+            },
+          })
+        })
+      }
+
+      $.get('/todolist/json', function (todo) {
+        todo.map((task) => {
+          addCard(task)
+          removeCard(task)
+        })
+      })
+
+      $('#add-todo').click(function () {
+        if ($('#title').val() && $('#description').val()) {
+          $.post(
+            '/todolist/add/',
+            {
+              title: $('#title').val(),
+              description: $('#description').val(),
+            },
+            function (res, status) {
+              if (status == 'success') {
+                addCard(res)
+                $('#title').val('')
+                $('#description').val('')
+                removeCard(res)
+              }
+            },
+          )
+        }
+      })
+    })
+  </script>
+</head>
+
+{% if user.is_authenticated %}
+<!-- NAVBAR -->
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #198754;">
+        <div class="container-fluid py-2 px-4">
+            <a class="navbar-brand px-2" href="#" style="color: #ffffff;">Welcome, {{user}}!</a>
+            <button class="btn btn-danger mx-3" style="background-color: #f3f3f3; color: #198754; border: #ffffff;" 
+                type="submit" onclick="location.href=`{% url 'todolist:logout' %}`">Logout</button>
+            </div>
+    </nav>
+    
+    <div class="mx-8" style="text-align: center;">      
+    
+    <h2>To Do List</h2>
+    
+      <div class="flex justify-between mt-5">
+        <div class="flex gap-2 lg:gap-5">
+          <button
+            class="inline-flex space-x-2 items-center justify-center px-6 py-3  rounded-xl btn btn-success btn-outline-light"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Tambah task
+          </button>
+        </div>
+      </div>
+    
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered relative w-auto pointer-events-none">
+            <div class="modal-content" style="background-color: #198754;">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    Tambah Task
+                </h1>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+                </div>
+                <div class="modal-body">
+                <div class="flex justify-center">
+                    <div class="lg:w-64 mt-3">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <label class="block">
+                        
+                            Title
+                        <input
+                            type="text"
+                            name="title"
+                            id="title"
+                            class=""
+                            placeholder="Title"
+                            required
+                        />
+                        </label>
         
-            <!-- <button style="padding: 10px;"><a href="{% url 'todolist:logout' %}">Logout</a></button> -->
+                        <label class="block mt-2">
+                        <span
+                            class=""
+                        >
+                            Description
+                        </span>
+                        <input
+                            type="text"
+                            name="description"
+                            id="description"
+                            class=""
+                            placeholder="Description"
+                            required
+                        />
+                        </label>
+                    </form>
+                    </div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button
+                    type="button"
+                    class="rounded-xl btn btn-success btn-outline-light"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
         
+                <button
+                    id="add-todo"
+                    type="button"
+                    class="inline-flex space-x-2 items-center justify-end px-6 py-3 rounded-xl btn btn-success btn-outline-light"
+                    data-bs-dismiss="modal"
+                >
+                    Tambah Task
+                </button>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <div
+            class="mb-16 grid lg:grid-cols-2 md:grid-cols-1 gap-5 mt-8 sm:mt-5"
+            id="todo"
+        ></div>
+        
+        {% else %}
+        <div></div>
+        </div>
+    
+        <div class="todolist">
+        <div style="text-align: center;">
+    
+            
+        
+        <div class="mb-16 grid lg:grid-cols-2 md:grid-cols-1 gap-5 mt-8 sm:mt-5" id="todo"></div>
         </div>
     </div>
 </body>
 
-{% endblock content %}
+{% endif %} {% endblock content %}
