@@ -13,4 +13,8 @@ Contoh penerapannya pada tugas ini adalah mengirimkan data task baru ketika butt
 Penerapan Asynchronous Programming pada AJAX terjadi ketika event dilakukan, contohnya ketika suatu button di klik, maka program akan segera mengeksekusi suatu proses tanpa menunggu proses antrian hierarki kode selanjutnya. Misalkan button yang diklik akan mengembalikan data task, maka AJAX GET akan digunakan. Bila button yang diklik akan menambah task baru, maka AJAX POST akan digunakan.
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.
-1. 
+1. Membuat fungsi bernama `show_json` dan `add_task` di views dengan menerapkan asynchronous programming
+2. Melakukan routing `show_json` dan add_task di `urls.py`
+3. Membuat <script> di `todolist.html` untuk membuat card lalu mengarahkannya ke fungsi `add_task` untuk membuat object task baru dan mereturn hasil POST
+4. Melakukan request GET ke `todolist/json` lalu map ke data. Setiap iterasi akan menambahkan card sehingga dapat muncul pada halaman
+5. Membuat modal untuk membuat card baru dan membuat fungsi POST yang akan berjalan saat button `Tambah Task` diklik. Apabila POST sukses, data akan ditambah dengan card yang baru dibuat.
